@@ -1,0 +1,61 @@
+/* Input page css */
+.input-page {
+    z-index: 10;
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    /* border: 1px solid hotpink; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4D455D;
+    /* display: none; */
+}
+
+.input-box {
+    position: relative;
+    /* border: 2px solid fuchsia; */
+    background-color: #E96479;
+    width: 50vw;
+    height: 50vh;
+    padding: 4% 9%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-size: 1.4rem;
+    border-radius: 2rem;
+}
+
+.input-box > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-box input {
+    height: 2rem;
+    font-size: 1.2rem;
+}
+
+.inputsSubmit {
+    width: 8rem;
+    cursor: pointer;
+    background-color: #7DB9B6;
+    border: none;
+    border-radius: 2rem;
+    /* color: white; */
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.inputsSubmit:hover {
+    color: rgb(96, 96, 96);
+}
+
+@media (max-width: 480px) {
+    .input-box {
+        width: 75vw;
+        height: 40vh;
+    }
+}

@@ -5,13 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lift Simulation</title>
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="css/main.css">
     <script src="./main.js" defer></script>
 </head>
 <body>
-    <div class="input-page">just another div here to see</div>
+    <div class="input-page">
+        <div class="input-box">
+            <div>
+                <label for="lift-input">Enter number of lifts:</label>
+                <input type="number" name="lift-input" id="lift-input" min="1" max="5" placeholder="Lifts count" required>
+            </div>
+            <div>
+                <label for="floor-input">Enter number of floors:</label>
+                <input type="number" name="floor-input" id="floor-input" min="2" max="10" placeholder="Floors count" required>
+            </div>
+            <div class="center">
+                <input type="submit" class="inputsSubmit">
+            </div>
+        </div>
+    </div>
 
-    <div class="main-page">
+    <div id="root"></div>
+    <!-- <div class="main-page">
         <div class="floors-container" >
             <div class="floor floor-4">
                 floor 4
@@ -32,6 +47,6 @@
 
             <div class="door">Door</div>
         </div>
-    </div>
+    </div> -->
 </body>
 </html>
