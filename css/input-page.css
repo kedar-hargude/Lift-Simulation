@@ -38,6 +38,11 @@
     font-size: 1.2rem;
 }
 
+.lift-input-container > input,
+.floor-input-container > input {
+    margin-top: 0.7rem;
+}
+
 .inputsSubmit {
     width: 8rem;
     cursor: pointer;
@@ -51,6 +56,12 @@
 
 .inputsSubmit:hover {
     color: rgb(96, 96, 96);
+}
+
+.lift-input-container span,
+.floor-input-container span {
+    color: hsl(0, 88%, 29%);
+    font-size: 1rem;
 }
 
 @media (max-width: 480px) {

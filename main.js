@@ -26,8 +26,16 @@ const inputsSubmit = document.querySelector(".inputsSubmit");
 
 // input page submitting inputs
 inputsSubmit.addEventListener("click", () => {
-    if (liftsInput.value && floorInput.value) {
-        // console.log(floorInput.value);
+    // if ((1 <= liftsInput.value <= 5) && (2 <= floorInput.value <= 10)) {
+    //     // console.log(floorInput.value);
+    //     console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
+    //     inputPage.style.display = 'none';
+    // } else {
+    //         location.reload();
+    //     }
+    if ((liftsInput.value < 1 || liftsInput.value > 5) || (floorInput.value < 2 || floorInput.value > 10)) {
+        location.reload();
+    } else {
         console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
         inputPage.style.display = 'none';
     }
