@@ -19,24 +19,8 @@
 // callBtn2.addEventListener("click", () => goto(1))
 // callBtn1.addEventListener("click", () => goto(0))
 
-const inputPage = document.querySelector(".input-page");
-const liftsInput = document.getElementById("lift-input");
-const floorInput = document.getElementById("floor-input");
-const inputsSubmit = document.querySelector(".inputsSubmit");
+console.log(liftsInput.value)
+console.log(floorInput.value)
 
-// input page submitting inputs
-inputsSubmit.addEventListener("click", () => {
-    // if ((1 <= liftsInput.value <= 5) && (2 <= floorInput.value <= 10)) {
-    //     // console.log(floorInput.value);
-    //     console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
-    //     inputPage.style.display = 'none';
-    // } else {
-    //         location.reload();
-    //     }
-    if ((liftsInput.value < 1 || liftsInput.value > 5) || (floorInput.value < 2 || floorInput.value > 10)) {
-        location.reload();
-    } else {
-        console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
-        inputPage.style.display = 'none';
-    }
-})
+let numberOfLifts = liftsInput.value;
+let numberOfFloors = floorInput.value;
