@@ -1,7 +1,7 @@
 /* Input page css */
 .input-page {
     z-index: 10;
-    display: block;
+    /* display: block; */
     position: fixed;
     width: 100%;
     height: 100%;
@@ -11,7 +11,8 @@
     justify-content: center;
     align-items: center;
     background-color: #4D455D;
-    /* display: none; */
+    /* temporary display none */
+    display: none;
 }
 
 .input-box {
@@ -64,6 +65,7 @@
     font-size: 1rem;
 }
 
+/* for mobile version */
 @media (max-width: 480px) {
     .input-box {
         width: 75vw;

@@ -1,0 +1,51 @@
+.navbar-container {
+    width: 100%;
+    height: 10vh;
+    background-color: #363040;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.navbar-container input {
+    height: 2rem;
+    width:  5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.update-btn {
+    background-color: pink;
+    width: 4rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.update-btn:hover {
+    background-color: rgb(193, 141, 149);
+}
+
+.update-btn:active {
+    background-color: rgb(124, 85, 91);
+    border: none;
+    color: white;
+}
+
+/* For larger scren */
+@media (min-width: 700px) {
+    .navbar-container {
+        padding: 0 25%;
+    }
+
+    .update-btn {
+        width: 6rem;
+        font-size: 1rem;
+    }
+
+}

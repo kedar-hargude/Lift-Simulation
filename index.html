@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lift Simulation</title>
     <link rel="stylesheet" href="css/main.css">
-    <script src="./inputPage.js" defer></script>
-    <script src="./main.js" defer></script>
+    <script src="./js/inputPage.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 <body>
     <div class="input-page">
@@ -26,6 +26,24 @@
         </div>
     </div>
 
+    <!-- Navbar here -->
+    <nav class="navbar-container">
+        <div>
+            <label for="lift-input-update">Lifts:</label>
+            <input type="number" id="lift-input-update" min="1" max="5" placeholder="Lift count">
+        </div>
+        
+        <div>
+            <label for="floor-input-update">Floors:</label>
+            <input type="number" id="floor-input-update" min="2" max="10" placeholder="Floor count">
+        </div>
+        
+        <div>
+            <button class="update-btn">Update</button>
+        </div>
+    </nav>
+    <div class="main-page">
+    </div>
     <div id="root"></div>
     <!-- <div class="main-page">
         <div class="floors-container" >
