@@ -1,5 +1,17 @@
 @import "./input-page.css";
 @import "./navbar.css";
+@import "./building-container.css";
+
+:root {
+    --dark-violet: #363040;
+    --light-violet: #4D455D;
+    --dark-pink: #E96479;
+    --pink: pink;
+    --cream-white : #F5E9CF;
+    --greenblue: #7DB9B6;
+    --orange-retro: #EA5455;
+    --blue-retro: #002B5B;
+}
 
 * {
     box-sizing: border-box;
@@ -8,7 +20,7 @@
 }
 
 body {
-    background-color: #4D455D;
+    background-color: var(--light-violet);
     width: 100vw;
     height: 100vh;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -23,26 +35,38 @@ body {
 
 .main-page {
     width: 100%;
-    height: 90vh;
+    min-height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 3rem;
     /* background-color: red; */
 }
 
+/* for smaller screens */
+@media (max-width: 700px) {
+    .main-page {
+        padding: 0.8rem;
+    }
+}
+
+/* .root {
+    border: 2px solid red;
+} */
+
+/* all below are redundant */
+/* 
 .floors-container {
     border: 1px solid brown;
     width: 80vw;
     height: 600px;
     display: flex;
     flex-direction: column;
-    /* justify-content:  */
     position: relative;
     background-color: hsl(0, 7%, 31%);
 }
 
 .floor {
-    /* border: 1px solid white; */
     height: 100%;
     border-bottom: 5px solid black;
     color: white;
@@ -55,7 +79,6 @@ body {
     height: 50px;
     left: 30px;  
     bottom: calc(50% - 25px);
-    /* z-index: 10; */
     cursor: pointer;
 }
 
@@ -74,4 +97,4 @@ body {
     left: 300px;
     color: white;
     transition: bottom 3s;
-}
+} */
