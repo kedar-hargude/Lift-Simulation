@@ -42,8 +42,26 @@ floorInputUpdate.value = numberOfFloors;
 
 const liftOutputTag = document.querySelector('#lift-output');
 
+function buttonClickHandler( isUpPressed, floorNumber) {
+    console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`)
+}
+
 function buildNewLiftContainer(numberOfLifts, numberOfFloors) {
-    liftOutputTag.innerHTML = "Lifts: " + numberOfLifts + ' Floors: ' + numberOfFloors;
+    // liftOutputTag.innerHTML = "Lifts: " + numberOfLifts + ' Floors: ' + numberOfFloors;
+    const buildingContainer = document.querySelector("#building-container");
+    buildingContainer.innerHTML = "";
+    
+    for (let count = 1; count <= numberOfFloors; count++) {
+        buildingContainer.innerHTML += `
+        <div class="floor">
+            <div class="floor-info-box">
+                <p class="floor-words">Floor</p>
+                <p class="floor-number">${count}</p>
+                <button onclick="buttonClickHandler(true, ${count})" class="btn up-btn">Up</button>
+                <button onclick="buttonClickHandler(false, ${count})" class="btn down-btn">Down</button>
+            </div>
+        </div>`
+    }
 }
 
 // handle update button click
