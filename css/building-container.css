@@ -75,25 +75,32 @@
 
 /* LIFTS container here */
 
-.lifts-container-block {
-    /* border: 2px solid green; */
+#lifts-container-block {
+    outline: 2px solid green;
     position: absolute;
     top: 0;
     left: 200px;
     right: 0;
     bottom: 0;
+    gap: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
 }
 
 .lift {
-    position: absolute;
-    width: 100px;
-    height: 100px;
+    /* position: absolute; */
+    width: 90px;
+    height: 120px;
     background-color: var(--orange-retro);
     /* add ((150 x floorNumbers) + 4px) for lift moving */
-    bottom: 5px;
+    /* use bottom only for absolute positioning */
+    /* bottom: 5px; */
     /* left: 30px; */
+    margin-bottom: 5px;
     border: 4px solid var(--blue-retro);
     border-bottom: 2px solid var(--blue-retro);
+    transition: margin-bottom 3s;
     /* border-bottom: none; */
 }
 
@@ -146,5 +153,6 @@
 
     .lift {
         width: 50px;
+        height: 90px;
     }
 }

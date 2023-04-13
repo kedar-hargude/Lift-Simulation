@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lift Simulation</title>
     <link rel="stylesheet" href="css/main.css">
-    <script src="./js/inputPage.js" defer async></script>
     <script src="./js/main.js" defer async></script>
 </head>
 <body>
@@ -50,14 +49,35 @@
             <!-- <div class="floor">
                 <div class="floor-info-box">
                     <p class="floor-words">Floor</p>
+                    <p class="floor-number">3</p>
+                    <button onclick="liftCallClickHandler(true,3)" class="btn up-btn">Up</button>
+                    <button onclick="liftCallClickHandler(false,3)" class="btn down-btn">Down</button>
+                </div>
+            </div>
+            <div class="floor">
+                <div class="floor-info-box">
+                    <p class="floor-words">Floor</p>
+                    <p class="floor-number">2</p>
+                    <button onclick="liftCallClickHandler(true,2)" class="btn up-btn">Up</button>
+                    <button onclick="liftCallClickHandler(false,2)" class="btn down-btn">Down</button>
+                </div>
+            </div>
+            <div class="floor">
+                <div class="floor-info-box">
+                    <p class="floor-words">Floor</p>
                     <p class="floor-number">1</p>
-                    <button class="btn up-btn">Up</button>
-                    <button class="btn down-btn">Down</button>
+                    <button onclick="liftCallClickHandler(true,1)" class="btn up-btn">Up</button>
+                    <button onclick="liftCallClickHandler(false,1)" class="btn down-btn">Down</button>
                 </div>
             </div> -->
-            <!-- <div class="lifts-container-block">
-                <div class="lift"></div>
-            </div> -->
+            
+            <div id="lifts-container-block">
+                <!-- <div id="lift-1" class="lift"></div>
+                <div id="lift-2" class="lift"></div>
+                <div id="lift-3" class="lift"></div>
+                <div id="lift-4" class="lift"></div>
+                <div id="lift-5" class="lift"></div> -->
+            </div>
         </div>
     </div>
     <!-- <div id="root">

@@ -33,6 +33,9 @@ const liftInputUpdate = document.querySelector("#lift-input-update");
 const floorInputUpdate = document.querySelector("#floor-input-update");
 const updateBtn = document.querySelector(".update-btn");
 
+let floorsCountGlobal = 0;
+let liftsCountGlobal = 0;
+
 // input page submitting inputs
 inputsSubmit.addEventListener("click", () => {
 
@@ -41,36 +44,53 @@ inputsSubmit.addEventListener("click", () => {
     } else {
         console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
         inputPage.style.display = 'none';
+
+        floorsCountGlobal = floorInput.value;
+        liftsCountGlobal = liftsInput.value;
+
         liftInputUpdate.value = liftsInput.value;
         floorInputUpdate.value = floorInput.value;
         buildNewLiftContainer(liftsInput.value, floorInput.value);
     }
 });
 
-console.log(liftsInput.value)
-console.log(floorInput.value)
+// handle update button click
+updateBtn.addEventListener("click", () => {
+    numberOfLifts = liftInputUpdate.value;
+    numberOfFloors = floorInputUpdate.value;
+    
+    // do nothing if passed values are beyong bounds
+    if (numberOfLifts < 1 || numberOfLifts > 5 || numberOfFloors < 2 || numberOfFloors > 10) return;
 
-// let numberOfLifts = liftsInput.value;
-// let numberOfFloors = floorInput.value;
-// TODO: remove these predefined values
-// let numberOfLifts = 5;
-// let numberOfFloors = 8;
+    floorsCountGlobal = numberOfFloors;
+    liftsCountGlobal = numberOfLifts;
+    buildNewLiftContainer(numberOfLifts, numberOfFloors);
 
-// console.log("before: page rendered")
-// console.log(`lift value: ${numberOfLifts}`)
-// console.log(`floor value: ${numberOfFloors}`)
+});
 
-// // navbar buttons
-// const liftInputUpdate = document.querySelector("#lift-input-update");
-// const floorInputUpdate = document.querySelector("#floor-input-update");
-// const updateBtn = document.querySelector(".update-btn");
 
-// liftInputUpdate.value = numberOfLifts;
-// floorInputUpdate.value = numberOfFloors;
+let liftNumber = 0;
+function getSelectedLiftNumber() {
+    console.log(`current lift count value: ${liftNumber}`);
+    if (liftNumber === liftsCountGlobal) {
+        console.log(`liftsCountGlobal: ${liftsCountGlobal}, liftNumber: ${liftNumber}`)
+        liftNumber = 1;
+    } else {
+        liftNumber += 1;
+    }
+    console.log(`liftNumber to be provided: ${liftNumber}, liftsCountGlobal: ${liftsCountGlobal}`);
+    return liftNumber;
+}
 
 
 function liftCallClickHandler( isUpPressed, floorNumber) {
-    console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`)
+    console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`);
+
+    const liftNumber = getSelectedLiftNumber();
+    // console.log(`liftNumber: ${liftNumber}`);
+    const chosenLift = document.querySelector(`#lift-${liftNumber}`);
+    chosenLift.style.marginBottom = `${ ((floorNumber-1) * 150) + 5}px`;
+    
 }
 
 function buildNewLiftContainer(numberOfLifts, numberOfFloors) {
@@ -89,21 +109,13 @@ function buildNewLiftContainer(numberOfLifts, numberOfFloors) {
         </div>`
     }
 
-    // generate multiple lifts here
-    buildingContainer.innerHTML += `
-    <div class="lifts-container-block">
-        <div class="lift"></div>
-    </div>`
+    // generating multiple lift as text
+    let multipleLiftsText = '';
+    for (let count = 1; count <= numberOfLifts; count++) {
+        multipleLiftsText += `<div id='lift-${count}' class="lift"></div>`
+    }
+
+    buildingContainer.innerHTML += `<div id='lifts-container-block'>${multipleLiftsText}</div>`
+
 }
 
-// handle update button click
-updateBtn.addEventListener("click", () => {
-    numberOfLifts = liftInputUpdate.value;
-    numberOfFloors = floorInputUpdate.value;
-    
-    // do nothing if passed values are beyong bounds
-    if (numberOfLifts < 1 || numberOfLifts > 5 || numberOfFloors < 2 || numberOfFloors > 10) return;
-
-    buildNewLiftContainer(numberOfLifts, numberOfFloors);
-
-})
