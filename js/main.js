@@ -57,7 +57,7 @@ inputsSubmit.addEventListener("click", () => {
 
         // set each element in liftsStateArray (each lift position) to 0 
         for (let i = 0; i < liftsCountGlobal; i++) {
-            liftsStateArray[i] = 0;
+            liftsStateArray[i] = 1;
         }
 
         buildNewLiftContainer(liftsInput.value, floorInput.value);
@@ -82,7 +82,7 @@ updateBtn.addEventListener("click", () => {
 
 function getSelectedLiftNumber(clickedFloorNumber) {
     // // console.log(`current lift count value: ${currentLiftNumber}`);
-
+    console.log(`clicked floor: ${clickedFloorNumber}, liftsArray: ${liftsStateArray}`);
     // if lift already on floor, return the same lift number
     if (liftsStateArray.includes(clickedFloorNumber)) {
         // console.log(`first case chya aat. clickedFloorNumber: ${clickedFloorNumber}, liftsStateArray: ${liftsStateArray}`);
@@ -98,7 +98,7 @@ function getSelectedLiftNumber(clickedFloorNumber) {
         // console.log(`liftCount: ${liftCount}, tempGap: ${tempGap}`);
         if (individualLiftGap < minGapBetnFloorAndLift) {
             currentLiftNumber = liftCount;
-            minGapBetnFloorAndLift = tempGap;
+            minGapBetnFloorAndLift = individualLiftGap;
         }
     }
     // console.log(`selected currentLiftNumber: ${currentLiftNumber}`);
