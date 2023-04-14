@@ -36,6 +36,10 @@ const updateBtn = document.querySelector(".update-btn");
 let floorsCountGlobal = 0;
 let liftsCountGlobal = 0;
 
+// current lift value here
+let currentLiftNumber = 0;
+let liftsStateArray = [];
+
 // input page submitting inputs
 inputsSubmit.addEventListener("click", () => {
 
@@ -50,6 +54,12 @@ inputsSubmit.addEventListener("click", () => {
 
         liftInputUpdate.value = liftsInput.value;
         floorInputUpdate.value = floorInput.value;
+
+        // set each element in liftsStateArray (each lift position) to 0 
+        for (let i = 0; i < liftsCountGlobal; i++) {
+            liftsStateArray[i] = 0;
+        }
+
         buildNewLiftContainer(liftsInput.value, floorInput.value);
     }
 });
@@ -65,31 +75,56 @@ updateBtn.addEventListener("click", () => {
     floorsCountGlobal = numberOfFloors;
     liftsCountGlobal = numberOfLifts;
     buildNewLiftContainer(numberOfLifts, numberOfFloors);
-
+    currentLiftNumber = 0;
 });
 
 
-let liftNumber = 0;
-function getSelectedLiftNumber() {
-    console.log(`current lift count value: ${liftNumber}`);
-    if (liftNumber === liftsCountGlobal) {
-        console.log(`liftsCountGlobal: ${liftsCountGlobal}, liftNumber: ${liftNumber}`)
-        liftNumber = 1;
-    } else {
-        liftNumber += 1;
+
+function getSelectedLiftNumber(clickedFloorNumber) {
+    // // console.log(`current lift count value: ${currentLiftNumber}`);
+
+    // if lift already on floor, return the same lift number
+    if (liftsStateArray.includes(clickedFloorNumber)) {
+        // console.log(`first case chya aat. clickedFloorNumber: ${clickedFloorNumber}, liftsStateArray: ${liftsStateArray}`);
+        currentLiftNumber = liftsStateArray.indexOf(clickedFloorNumber) + 1; // array has every lift value starting from 0
+        // console.log(`lift on same floor: to be returned lift number: ${currentLiftNumber}`)
+        return currentLiftNumber;
     }
-    console.log(`liftNumber to be provided: ${liftNumber}, liftsCountGlobal: ${liftsCountGlobal}`);
-    return liftNumber;
+
+    let minGapBetnFloorAndLift = floorsCountGlobal + 5; // just as a safe extreme
+
+    for (let liftCount = 1; liftCount <= liftsCountGlobal; liftCount++) {
+        let individualLiftGap = Math.abs(clickedFloorNumber - liftsStateArray[liftCount - 1]);
+        // console.log(`liftCount: ${liftCount}, tempGap: ${tempGap}`);
+        if (individualLiftGap < minGapBetnFloorAndLift) {
+            currentLiftNumber = liftCount;
+            minGapBetnFloorAndLift = tempGap;
+        }
+    }
+    // console.log(`selected currentLiftNumber: ${currentLiftNumber}`);
+    
+    // // Don't know why this works with double equals and not triple equals
+    // if (currentLiftNumber == liftsCountGlobal) {
+    //     // console.log(`liftsCountGlobal: ${liftsCountGlobal}, currentLiftNumber: ${currentLiftNumber}`)
+    //     currentLiftNumber = 1;
+    // } else {
+    //     currentLiftNumber += 1;
+    // }
+    // console.log(`liftNumber to be provided: ${currentLiftNumber}, liftsCountGlobal: ${liftsCountGlobal}`);
+
+    liftsStateArray[currentLiftNumber - 1] = clickedFloorNumber;
+    return currentLiftNumber;
 }
 
 
 function liftCallClickHandler( isUpPressed, floorNumber) {
-    console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`);
+    // console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`);
 
-    const liftNumber = getSelectedLiftNumber();
-    // console.log(`liftNumber: ${liftNumber}`);
+    const liftNumber = getSelectedLiftNumber(floorNumber);
+    // console.log(`liftsStateArray: ${liftsStateArray}`)
+    // console.log(`bhetlela liftNumber: ${liftNumber}`);
     const chosenLift = document.querySelector(`#lift-${liftNumber}`);
-    chosenLift.style.marginBottom = `${ ((floorNumber-1) * 150) + 5}px`;
+    chosenLift.style.marginBottom = `${ ((floorNumber-1) * 150) + 4}px`;
     
 }
 

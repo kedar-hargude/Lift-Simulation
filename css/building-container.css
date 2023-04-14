@@ -76,7 +76,7 @@
 /* LIFTS container here */
 
 #lifts-container-block {
-    outline: 2px solid green;
+    /* outline: 2px solid green; */
     position: absolute;
     top: 0;
     left: 200px;
@@ -147,7 +147,7 @@
     }
 
 
-    .lifts-container-block {
+    #lifts-container-block {
         left: 72px;
     }
 
