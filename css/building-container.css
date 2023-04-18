@@ -76,7 +76,7 @@
     display: none;
 }
 
-#building-container > div:nth-last-child(2) .down-btn{
+#building-container > .floor:nth-last-child(2) .down-btn{
     display: none;
 }
 
