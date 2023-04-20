@@ -1,26 +1,3 @@
-// "use strict";
-
-// const callBtn4 = document.querySelector(".btn4");
-// const callBtn3 = document.querySelector(".btn3");
-// const callBtn2 = document.querySelector(".btn2");
-// const callBtn1 = document.querySelector(".btn1");
-
-// const door = document.querySelector(".door");
-
-// function goto(floorNo) {
-//     // door.style.bottom = '305px';
-//     door.style.bottom = `${floorNo * 150 + 5}px`;
-//     // door.style.transition = `bottom ${(floorNo + 1) * 2}s`
-// }
-
-
-// callBtn4.addEventListener("click", () => goto(3))
-// callBtn3.addEventListener("click", () => goto(2))
-// callBtn2.addEventListener("click", () => goto(1))
-// callBtn1.addEventListener("click", () => goto(0))
-
-// const liftsInput = document.getElementById("lift-input");
-// const floorInput = document.getElementById("floor-input");
 
 // input page buttons
 const inputPage = document.querySelector(".input-page");
@@ -102,15 +79,12 @@ function getSelectedLiftNumber(clickedFloorNumber) {
         }
     }
     // console.log(`selected currentLiftNumber: ${currentLiftNumber}`);
-    
-    // // Don't know why this works with double equals and not triple equals
-    // if (currentLiftNumber == liftsCountGlobal) {
-    //     // console.log(`liftsCountGlobal: ${liftsCountGlobal}, currentLiftNumber: ${currentLiftNumber}`)
-    //     currentLiftNumber = 1;
-    // } else {
-    //     currentLiftNumber += 1;
-    // }
-    // console.log(`liftNumber to be provided: ${currentLiftNumber}, liftsCountGlobal: ${liftsCountGlobal}`);
+
+
+    // before updating the array, first set the lift transition time based on the difference between current selected lift number and where it has to go
+    const chosenLiftTemp = document.querySelector(`#lift-${currentLiftNumber}`);
+    const floorGapValue = Math.abs(clickedFloorNumber - liftsStateArray[currentLiftNumber - 1]);
+    chosenLiftTemp.style.transition = `margin-bottom ${floorGapValue * 2}s`
 
     liftsStateArray[currentLiftNumber - 1] = clickedFloorNumber;
     return currentLiftNumber;
