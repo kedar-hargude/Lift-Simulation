@@ -97,20 +97,32 @@
 }
 
 .lift {
-    /* position: absolute; */
+    position: relative;
     width: 90px;
     height: 120px;
     background-color: var(--orange-retro);
-    /* add ((150 x floorNumbers) + 4px) for lift moving */
-    /* use bottom only for absolute positioning */
-    /* bottom: 5px; */
-    /* left: 30px; */
     margin-bottom: 4px;
     border: 4px solid var(--blue-retro);
     border-bottom: 2px solid var(--blue-retro);
     transition: margin-bottom 3s;
     /* border-bottom: none; */
+    overflow: hidden;
 }
+
+.lift-door {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(315deg, #bdd4e7 0%, #8693ab 74%);
+    border-right: 1px solid black;
+    transition: transform 2.5s;
+}
+
+.lift-door-animate{
+    transform: translateX(-100%);
+}
+
+
+
 
 /* for smaller screens */
 @media (max-width: 700px) {

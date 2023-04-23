@@ -23,7 +23,7 @@ inputsSubmit.addEventListener("click", () => {
     if ((liftsInput.value < 1 || liftsInput.value > 5) || (floorInput.value < 2 || floorInput.value > 10)) {
         location.reload();
     } else {
-        console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
+        // console.log(`lifts: ${liftsInput.value}, floors: ${floorInput.value}`);
         inputPage.style.display = 'none';
 
         floorsCountGlobal = floorInput.value;
@@ -32,7 +32,7 @@ inputsSubmit.addEventListener("click", () => {
         liftInputUpdate.value = liftsInput.value;
         floorInputUpdate.value = floorInput.value;
 
-        // set each element in liftsStateArray (each lift position) to 0 
+        // set each element in liftsStateArray (each lift position) to 1
         for (let i = 0; i < liftsCountGlobal; i++) {
             liftsStateArray[i] = 1;
         }
@@ -59,13 +59,13 @@ updateBtn.addEventListener("click", () => {
 
 function getSelectedLiftNumber(clickedFloorNumber) {
     // // console.log(`current lift count value: ${currentLiftNumber}`);
-    console.log(`clicked floor: ${clickedFloorNumber}, liftsArray: ${liftsStateArray}`);
+    // console.log(`clicked floor: ${clickedFloorNumber}, liftsArray: ${liftsStateArray}`);
     // if lift already on floor, return the same lift number
     if (liftsStateArray.includes(clickedFloorNumber)) {
         // console.log(`first case chya aat. clickedFloorNumber: ${clickedFloorNumber}, liftsStateArray: ${liftsStateArray}`);
         currentLiftNumber = liftsStateArray.indexOf(clickedFloorNumber) + 1; // array has every lift value starting from 0
         // console.log(`lift on same floor: to be returned lift number: ${currentLiftNumber}`)
-        return currentLiftNumber;
+        return [currentLiftNumber, 0];
     }
 
     let minGapBetnFloorAndLift = floorsCountGlobal + 5; // just as a safe extreme
@@ -87,19 +87,34 @@ function getSelectedLiftNumber(clickedFloorNumber) {
     chosenLiftTemp.style.transition = `margin-bottom ${floorGapValue * 2}s`
 
     liftsStateArray[currentLiftNumber - 1] = clickedFloorNumber;
-    return currentLiftNumber;
+    return [currentLiftNumber, floorGapValue];
 }
 
+function wait(time) {
+    return new Promise(res => setTimeout(res, time));
+}
 
-function liftCallClickHandler( isUpPressed, floorNumber) {
+async function liftCallClickHandler( isUpPressed, floorNumber) {
     // console.log(`Floor: ${floorNumber}, ${isUpPressed? "Up" : "Down"} key pressed.`);
 
-    const liftNumber = getSelectedLiftNumber(floorNumber);
+    const [liftNumber, floorGapValue] = getSelectedLiftNumber(floorNumber);
     // console.log(`liftsStateArray: ${liftsStateArray}`)
     // console.log(`bhetlela liftNumber: ${liftNumber}`);
     const chosenLift = document.querySelector(`#lift-${liftNumber}`);
     chosenLift.style.marginBottom = `${ ((floorNumber-1) * 150) + 4}px`;
-    
+
+    // add animation to lift opening and closing
+    await wait(floorGapValue * 2000); // wait till lift reaches the floor
+    // console.log("Running after");
+    // console.log("lift starts opening now");
+    const chosenLiftDoor = document.querySelector(`.lift-${liftNumber}-door`);
+    chosenLiftDoor.classList.add("lift-door-animate");
+    await wait(3000); // 500ms added to 2.5seconds for aesthetics
+    // console.log("Lift opened");
+    chosenLiftDoor.classList.remove("lift-door-animate");
+    await wait(2500)
+    // console.log("lift closed");
+    // TODO: add the status to the array
 }
 
 function buildNewLiftContainer(numberOfLifts, numberOfFloors) {
@@ -121,7 +136,11 @@ function buildNewLiftContainer(numberOfLifts, numberOfFloors) {
     // generating multiple lift as text
     let multipleLiftsText = '';
     for (let count = 1; count <= numberOfLifts; count++) {
-        multipleLiftsText += `<div id='lift-${count}' class="lift"></div>`
+        multipleLiftsText += `
+        <div id='lift-${count}' class="lift">
+            <div class="lift-door lift-${count}-door"></div>
+        </div>
+        `
     }
 
     buildingContainer.innerHTML += `<div id='lifts-container-block'>${multipleLiftsText}</div>`
