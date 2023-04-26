@@ -15,8 +15,7 @@ let liftsCountGlobal = 0;
 
 // current lift value here
 let currentLiftNumber = 0;
-// TODO change liftsStateArray to liftsPositionArray
-let liftsStateArray = []; // gives current floor position of lifts
+let liftsPositionArray = []; // gives current floor position of lifts
 let liftsAvailableArray = []; // shows which lifts are busy
 let floorCallStackArray = []; // memory of all the floors clicked
 
@@ -35,9 +34,9 @@ inputsSubmit.addEventListener("click", () => {
         liftInputUpdate.value = liftsInput.value;
         floorInputUpdate.value = floorInput.value;
 
-        // set each element in liftsStateArray (each lift position) to 1
+        // set each element in liftsPositionArray (each lift position) to 1
         for (let i = 0; i < liftsCountGlobal; i++) {
-            liftsStateArray[i] = 1;
+            liftsPositionArray[i] = 1;
             liftsAvailableArray[i] = true;
         }
 
@@ -52,9 +51,20 @@ updateBtn.addEventListener("click", () => {
     
     // do nothing if passed values are beyong bounds
     if (numberOfLifts < 1 || numberOfLifts > 5 || numberOfFloors < 2 || numberOfFloors > 10) return;
-
+    
     floorsCountGlobal = numberOfFloors;
     liftsCountGlobal = numberOfLifts;
+    
+    // reset all the values
+    for (let i = 0; i < liftsCountGlobal; i++) {
+        liftsPositionArray[i] = 1;
+        liftsAvailableArray[i] = true;
+    }
+    floorCallStackArray = [];
+
+    // TODO: handle update button click so that the previous functions of wait and lift animation don't continue to execute
+    // clearTimeout();
+    
     buildNewLiftContainer(numberOfLifts, numberOfFloors);
     currentLiftNumber = 0;
 });
@@ -62,24 +72,24 @@ updateBtn.addEventListener("click", () => {
 
 
 function getSelectedLiftNumber(clickedFloorNumber) {
-    console.log(`getSelectedLiftNumber func entered, clickedFloorNumber: ${clickedFloorNumber} is input.`)
+    // console.log(`getSelectedLiftNumber func entered, clickedFloorNumber: ${clickedFloorNumber} is input.`)
     currentLiftNumber = -1; // to not let previous values of lift be passed
 
     // if lift already on floor, return the same lift number
-    if (liftsStateArray.includes(clickedFloorNumber)) {
-        currentLiftNumber = liftsStateArray.indexOf(clickedFloorNumber) + 1; // array has every lift value starting from 0
-        console.log(`same floor, returning [${currentLiftNumber}, 0] from getSelectedLiftNumber function.`)
+    if (liftsPositionArray.includes(clickedFloorNumber)) {
+        currentLiftNumber = liftsPositionArray.indexOf(clickedFloorNumber) + 1; // array has every lift value starting from 0
+        // console.log(`same floor, returning [${currentLiftNumber}, 0] from getSelectedLiftNumber function.`)
         return [currentLiftNumber, 0];
     }
 
     let minGapBetnFloorAndLift = +floorsCountGlobal + 5; // just as a safe extreme
 
-    console.log(`Entering for loop of getSelectedLiftNumber. Current liftsAvailableArray: ${liftsAvailableArray}. liftsStateArray: ${liftsStateArray}.`)
+    // console.log(`Entering for loop of getSelectedLiftNumber. Current liftsAvailableArray: ${liftsAvailableArray}. liftsPositionArray: ${liftsPositionArray}.`)
     for (let liftCount = 1; liftCount <= liftsCountGlobal; liftCount++) {
         // only return a value if any lift is available to move
         if (liftsAvailableArray[liftCount - 1] === true) {
-            console.log(`entered the for loop. liftCount: ${liftCount}.`);
-            let individualLiftGap = Math.abs(clickedFloorNumber - liftsStateArray[liftCount - 1]);
+            // console.log(`entered the for loop. liftCount: ${liftCount}.`);
+            let individualLiftGap = Math.abs(clickedFloorNumber - liftsPositionArray[liftCount - 1]);
             if (individualLiftGap < minGapBetnFloorAndLift) {
                 currentLiftNumber = liftCount;
                 minGapBetnFloorAndLift = individualLiftGap;
@@ -91,17 +101,17 @@ function getSelectedLiftNumber(clickedFloorNumber) {
 
     // all lifts are busy
     if(currentLiftNumber === -1) {
-        console.log(`all lifts are busy, so returning [-1, 0], for clickedFloorNumber: ${clickedFloorNumber} from getSelectedLiftNumber func.`)
+        // console.log(`all lifts are busy, so returning [-1, 0], for clickedFloorNumber: ${clickedFloorNumber} from getSelectedLiftNumber func.`)
         return [-1, 0];
     }
 
     // before updating the array, first set the lift transition time based on the difference between current selected lift number and where it has to go
     // const chosenLiftTemp = document.querySelector(`#lift-${currentLiftNumber}`);
-    // const floorGapValue = Math.abs(clickedFloorNumber - liftsStateArray[currentLiftNumber - 1]);
+    // const floorGapValue = Math.abs(clickedFloorNumber - liftsPositionArray[currentLiftNumber - 1]);
     // chosenLiftTemp.style.transition = `margin-bottom ${floorGapValue * 2}s`
     
-    liftsStateArray[currentLiftNumber - 1] = clickedFloorNumber;
-    console.log(`getSelectedLiftNumber func, clickedFloorNumber: ${clickedFloorNumber}, returning [currentLiftNumber: ${currentLiftNumber}, minGap: ${minGapBetnFloorAndLift}]`);
+    liftsPositionArray[currentLiftNumber - 1] = clickedFloorNumber;
+    // console.log(`getSelectedLiftNumber func, clickedFloorNumber: ${clickedFloorNumber}, returning [currentLiftNumber: ${currentLiftNumber}, minGap: ${minGapBetnFloorAndLift}]`);
     return [currentLiftNumber, minGapBetnFloorAndLift];
 }
 
@@ -112,9 +122,11 @@ function wait(time) {
 async function liftCallClickHandler( isUpPressed, floorNumber) {
     
     const [liftNumber, floorGapValue] = getSelectedLiftNumber(floorNumber);
-    console.log(`----liftNumber: ${liftNumber} is chosen to go to floor: ${floorNumber}`);
+    // console.log(`----liftNumber: ${liftNumber} is chosen to go to floor: ${floorNumber}`);
+
+    // remove the floor from call stack so as to not trigger other lifts to go to the same
     floorCallStackArray = floorCallStackArray.filter(ele => ele !== floorNumber);
-    console.log(`floor ${floorNumber} is removed from floorCallStackArray: ${floorCallStackArray} as it's been decided that lift ${liftNumber} will go to it. So, don't want to repeat it when other lifts are free.`);
+    // console.log(`floor ${floorNumber} is removed from floorCallStackArray: ${floorCallStackArray} as it's been decided that lift ${liftNumber} will go to it. So, don't want to repeat it when other lifts are free.`);
     if(liftNumber === -1) {
         // all lifts are busy, don't do anything.
         return;
@@ -125,33 +137,38 @@ async function liftCallClickHandler( isUpPressed, floorNumber) {
         return;
     }
     // start moving lift up
-    console.log(`${liftNumber} moving up to floor: ${floorNumber}.`)
+    // console.log(`${liftNumber} moving up to floor: ${floorNumber}.`)
     chosenLift.style.transition = `margin-bottom ${floorGapValue * 2}s`
     chosenLift.style.marginBottom = `${ ((floorNumber-1) * 150) + 4}px`;
     
     // add animation to lift opening and closing
     await wait(floorGapValue * 2000); // wait till lift reaches the floor
-    console.log(`${liftNumber} reached floor: ${floorNumber}. Will start door animation.`)
+    // console.log(`${liftNumber} reached floor: ${floorNumber}. Will start door animation.`);
+
     
+    // while lift is going to the floor, if the same floor is clicked, remove it from call stack as lift has reached there after calling it.
+    // if (floorCallStackArray.includes(floorNumber)) {
+    //     floorCallStackArray = floorCallStackArray.filter(ele => ele !== floorNumber);
+    // }
 
     
     const chosenLiftDoor = document.querySelector(`.lift-${liftNumber}-door`);
-    console.log(`liftNumber: ${liftNumber} opening doors, reached floor ${floorNumber}`)
+    // console.log(`liftNumber: ${liftNumber} opening doors, reached floor ${floorNumber}`)
     chosenLiftDoor.classList.add("lift-door-animate");
     await wait(2500); // 500ms added to 2.5seconds for aesthetics
     chosenLiftDoor.classList.remove("lift-door-animate");
     await wait(2500);
-    console.log(`liftNumber: ${liftNumber} closing doors. Now the lift is available in liftsAvailableArray.`);
+    // console.log(`liftNumber: ${liftNumber} closing doors. Now the lift is available in liftsAvailableArray.`);
     liftsAvailableArray[liftNumber - 1] = true;
     
     // lift has reached the floor, and doors have opened and closed. Remove it from the call stack
     // floorCallStackArray = floorCallStackArray.filter(ele => ele !== floorNumber);
     // console.log(`After lift: ${liftNumber} door closing and lift available in liftsAvailableArray: ${liftsAvailableArray}, now floorCallStackArray's (${floorCallStackArray}) value has been changed where ${floorNumber} is removed from it.`)
 
-    console.log(`${liftNumber} has done it's job on floor ${floorNumber} now. floorCallStackArray: ${floorCallStackArray}, liftsAvailableArray: ${liftsAvailableArray}`);
+    // console.log(`${liftNumber} has done it's job on floor ${floorNumber} now. floorCallStackArray: ${floorCallStackArray}, liftsAvailableArray: ${liftsAvailableArray}`);
 
     if(floorCallStackArray.length !== 0) {
-        console.log(`${liftNumber} is done. floorCallStackArray: ${floorCallStackArray} is still not empty. Implementing liftCallClickHandler again, let's see.`)
+        // console.log(`${liftNumber} is done. floorCallStackArray: [${floorCallStackArray}] is still not empty. Implementing liftCallClickHandler again, let's see.`)
         liftCallClickHandler(true, floorCallStackArray[0]);
         // floorCallStackArray.forEach(ele => liftCallClickHandler(true, ele));
     }
