@@ -73,7 +73,7 @@ updateBtn.addEventListener("click", () => {
 
 function getSelectedLiftNumber(clickedFloorNumber) {
     // console.log(`getSelectedLiftNumber func entered, clickedFloorNumber: ${clickedFloorNumber} is input.`)
-    currentLiftNumber = -1; // to not let previous values of lift be passed
+    currentLiftNumber = -10; // to not let previous values of lift be passed
 
     // if lift already on floor, return the same lift number
     if (liftsPositionArray.includes(clickedFloorNumber)) {
@@ -175,7 +175,18 @@ async function liftCallClickHandler( isUpPressed, floorNumber) {
 }
 
 function manageFloorClick(isUpPressed, floorNumber) {
-    if (floorCallStackArray.includes(floorNumber)) {
+
+    // check if a lift is already moving to the called floor.
+    //get a lift that is either already on the floor, or moving to it
+    const filterLift = liftsPositionArray.indexOf(floorNumber);
+    let liftIsBusyMovingToFloor = false;
+    if (filterLift >= 0) {
+        liftIsBusyMovingToFloor = !liftsAvailableArray[filterLift];
+    }
+
+    console.log(`floorNumber: ${floorNumber}, filterLift: ${filterLift}, liftsAvailableArray: ${liftsAvailableArray}, liftIsBusyMovingToFloor: ${liftIsBusyMovingToFloor}`);
+    
+    if (floorCallStackArray.includes(floorNumber) || liftIsBusyMovingToFloor) {
         return;
     } else {
         floorCallStackArray.push(floorNumber);
